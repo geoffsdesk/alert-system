@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Your Alerts</h2>
+            <a href="{{ url_for('create_alert') }}" class="btn btn-primary">Create New Alert</a>
+        </div>
+        
+        {% if alerts %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Message</th>
+                            <th>Sent At</th>
+                            <th>Response Deadline</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alert in alerts %}
+                            <tr>
+                                <td>{{ alert.message }}</td>
+                                <td>{{ alert.sent_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ alert.response_deadline.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    {% if alert.responded %}
+                                        <span class="badge bg-success">Responded</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not alert.responded %}
+                                        <form method="POST" action="{{ url_for('respond_to_alert', alert_id=alert.id) }}" style="display: inline;">
+                                            <button type="submit" class="btn btn-sm btn-success">Mark as Responded</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                You don't have any alerts yet. Create one using the button above!
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
