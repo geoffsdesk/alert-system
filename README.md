@@ -1,4 +1,4 @@
-# Alert System
+# Alert System, the origin of the deadhand
 
 A containerized application that handles user authentication, SMS alerts, and email follow-ups. The system allows users to create time-sensitive alerts that require responses within a specified timeframe. If no response is received, the system automatically sends follow-up emails.
 
